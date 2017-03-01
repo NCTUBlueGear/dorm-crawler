@@ -3,7 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 
 # Crawl the website
-url = "http://dormapply2.adm.nctu.edu.tw/SecondResult/Second105.html"
+year = "105"
+url = "http://dormapply2.adm.nctu.edu.tw/SecondResult/Second" + year + ".html"
 r = requests.get(url)
 soup = BeautifulSoup(r.content, "lxml", from_encoding='big5')
 
@@ -28,14 +29,14 @@ for row in soup.find_all('tr')[1:100]:
             for stu in stu_list:
                 s = stu.split("(")
                 if "(未確認申請)" in stu:
-                    print(s[0], room_no , s[2][:-1])
-                    payloads.append([s[0], room_no , s[2][:-1]])
+                    payload = [year, "保留原寢", s[0], room_no, s[2][:-1]]
                 else:
-                    print(s[0], room_no, "")
-                    payloads.append([s[0], room_no , ""])
+                    payload = [year, "保留原寢", s[0], room_no, ""]
+                payloads.append(payload)
+                print(payload)
 
 # Create csvfile
 import csv
-with open('output.csv', 'w', newline='', encoding='utf8') as csvfile:
+with open('second.csv', 'w', newline='', encoding='utf8') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerows(payloads)
