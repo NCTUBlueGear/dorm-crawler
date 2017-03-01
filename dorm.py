@@ -18,20 +18,23 @@ soup = BeautifulSoup(r.content, "lxml", from_encoding='big5')
 #     print("--")
 
 # Iterate through the rows and parse it
-payloads = []
+payloads = [["學年度", "階段", "學號", "宿舍", "房號", "是否確認"]]
 for row in soup.find_all('tr')[1:100]:
     room_no = ""
     for idx, val in enumerate(row.find_all('td')):
         if idx==1:
-            room_no = val.text
+            tmp = val.text.split("樓")
+            dorm = tmp[0][:-1]
+            room = tmp[1][:-1]
         if idx==2:
             stu_list = val.text.split("\xa0\xa0\xa0")[:-1]
             for stu in stu_list:
                 s = stu.split("(")
                 if "(未確認申請)" in stu:
-                    payload = [year, "保留原寢", s[0], room_no, s[2][:-1]]
+
+                    payload = [year, "保留原寢", s[0], dorm, room, s[2][:-1]]
                 else:
-                    payload = [year, "保留原寢", s[0], room_no, ""]
+                    payload = [year, "保留原寢", s[0], dorm, room, ""]
                 payloads.append(payload)
                 print(payload)
 
