@@ -7,9 +7,5 @@
 * 三階-大學部女：http://dormapply2.adm.nctu.edu.tw/ThirdResult/ThirdUG105.html
 
 ## 資料格式範例
+請看檔案內的 `second.csv`
 
-學號, 宿舍, 房號, 保留原寢
-0310701, 13, 303, True
-0310723, 13, 303, True
-0310001, 7, 201, False
-...
